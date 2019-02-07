@@ -1,0 +1,112 @@
+.card {
+  border: 0;
+  margin-bottom: 30px;
+  margin-top: 30px;
+  border-radius: 6px;
+  color: #333333;
+  background: #FFFFFF;
+  width: 100%;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+  
+  .card-header {
+    z-index: 3 !important;
+    border-color: rgba(146, 146, 146, 0.24);
+    background: transparent;
+
+    &.card-header-icon,
+    &.card-header-text {
+      i {
+        width: 33px;
+        height: 33px;
+        text-align: center;
+        line-height: 33px;
+      }
+      
+      .card-title {
+        color: #3C4858;
+        font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+        font-weight: 300;
+        text-align: right;
+        line-height: 1.4em;
+      }
+    }
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+    padding-top: 10px;
+    margin: 0 15px 10px;
+    border-radius: 0;
+    justify-content: space-between;
+    align-items: center;
+
+    .stats {
+      color: #999999;
+      font-size: 12px;
+      line-height: 22px;
+
+      .material-icons {
+        position: relative;
+        top: 4px;
+        font-size: 16px;
+      }
+    }
+  }
+    
+  [class*="card-header-"],
+  &[class*="bg-"] {
+    color: #FFFFFF;
+    
+    .icon i {
+      color: #FFFFFF;
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+    
+    .card-category,
+    .card-description {
+      margin: 0;
+      color: #000;
+    }
+  }
+
+  [class*="card-header-"] {
+    margin: 0px 15px 0;
+    padding: 0;
+
+    .card-icon{
+      border-radius: 6px;
+      background-color: #999999;
+      padding: 15px;
+      margin-top: -20px;
+      margin-right: 15px;
+      float: left;
+    }
+
+    .card-category {
+      text-align: right;
+      padding-top: 5px;
+      color: #999999;
+      font-size: 14px;
+    }
+  }
+
+  .card-header-info .card-icon {
+    background: linear-gradient(60deg, #26c6da, #00acc1);
+  }
+  
+  .card-header-success .card-icon {
+    background: linear-gradient(60deg, #66bb6a, #43a047);
+  }
+  
+  .card-header-warning .card-icon {
+    background: linear-gradient(60deg, #ffa726, #fb8c00);
+  }
+  
+  .card-header-danger .card-icon {
+    background: linear-gradient(60deg, #ef5350, #e53935);
+  }
+}

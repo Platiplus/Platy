@@ -6,7 +6,12 @@
   left: 0;
   z-index: 1006;
   min-width: 64px;
-  background: #a10a0a;
+  background: linear-gradient(
+    rgba(0, 0, 0, 0.8), 
+    rgba(0, 0, 0, 0.8)
+  ), url('../../res/img/bg-sidebar.jpg');
+  background-size: cover;
+  background-position: center;
   -webkit-transition: min-width 0.15s;
   -moz-transition: min-width 0.15s;
   -o-transition: min-width 0.15s;
@@ -90,7 +95,7 @@
   color: #fff;
 }
 .sidenav---sidenav---_2tBP.sidenav---expanded---1KdUL .sidenav---sidenav-subnav---1EN61 > .sidenav---sidenav-subnavitem---1cD47 > .sidenav---navitem---9uL5T {
-  color: #f9dcdd;
+  color: #818181;
   padding: 0 14px 0 20px;
   line-height: 28px;
 }
@@ -241,11 +246,11 @@
 }
 .sidenav---sidenav-nav---3tvij > .sidenav---sidenav-navitem---uwIJ- > .sidenav---navitem---9uL5T .sidenav---navicon---3gCRo,
 .sidenav---sidenav-nav---3tvij > .sidenav---sidenav-navitem---uwIJ- > .sidenav---navitem---9uL5T .sidenav---navtext---1AE_f {
-  color: #f9dcdd;
+  color: #979797;
 }
 .sidenav---sidenav-nav---3tvij > .sidenav---sidenav-navitem---uwIJ- > .sidenav---navitem---9uL5T .sidenav---navicon---3gCRo > *,
 .sidenav---sidenav-nav---3tvij > .sidenav---sidenav-navitem---uwIJ- > .sidenav---navitem---9uL5T .sidenav---navtext---1AE_f > * {
-  color: #f9dcdd;
+  color: #979797;
 }
 .sidenav---sidenav-nav---3tvij > .sidenav---sidenav-navitem---uwIJ- > .sidenav---navitem---9uL5T .sidenav---navicon---3gCRo {
   display: block;

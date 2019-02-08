@@ -7,7 +7,7 @@ const app = express();
 
 //ROUTES IMPORTING
 const userRoutes = require('./api/routes/users_routes');
-const transactionRoutes = require('./api/routes/transactions_routes');
+const dashboardRoutes = require('./api/routes/dashboard_routes');
 const balanceRoutes = require('./api/routes/balance_routes');
 
 //MIDDLEWARES
@@ -17,7 +17,7 @@ app.use(cors());
 
 //ROUTES DECLARATION
 app.use('/api/users', userRoutes);
-app.use('/api/transactions', transactionRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/balance', balanceRoutes);
 
 //DB CONNECTION

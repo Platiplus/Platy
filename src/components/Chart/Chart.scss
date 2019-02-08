@@ -1,0 +1,93 @@
+.transitioning {
+  animation: fadein .5s;
+  -moz-animation: fadein .5s; /* Firefox */
+  -webkit-animation: fadein .5s; /* Safari and Chrome */
+  -o-animation: fadein .5s; /* Opera */
+}
+
+.card {
+  border: 0;
+  margin-bottom: 20px;
+  margin-top: 30px;
+  border-radius: 6px;
+  color: #333333;
+  background: #FFFFFF;
+  width: 100%;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  font-size: .875rem;
+}
+
+.card-chart-header {
+  margin: -30px 15px 0;
+  padding: 15px 15px 0px;
+  border-radius: 6px;
+
+
+  .card-chart-category {
+    text-align: left;
+    padding-top: 0px;
+    color: rgba(255, 255, 255, .62);
+    font-size: 14px;
+  }
+  .card-chart-title {
+    margin-bottom: 3px;
+    color: #FFFFFF;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 300;
+    text-align: left;
+    line-height: 1.4em;
+    font-size: 1.125rem;
+  }
+}
+
+.card-chart-header-info {
+  background: linear-gradient(60deg, #26c6da, #00acc1);
+}
+
+.card-chart-header-success {
+  background: linear-gradient(60deg, #66bb6a, #43a047);
+}
+
+.card-chart-header-warning {
+  background: linear-gradient(60deg, #ffa726, #fb8c00);
+}
+
+.card-chart-header-danger {
+  background: linear-gradient(60deg, #ef5350, #e53935);
+}
+
+@keyframes fadein {
+  from {
+      opacity:0;
+  }
+  to {
+      opacity:1;
+  }
+}
+@-moz-keyframes fadein { /* Firefox */
+  from {
+      opacity:0;
+  }
+  to {
+      opacity:1;
+  }
+}
+@-webkit-keyframes fadein { /* Safari and Chrome */
+  from {
+      opacity:0;
+  }
+  to {
+      opacity:1;
+  }
+}
+@-o-keyframes fadein { /* Opera */
+  from {
+      opacity:0;
+  }
+  to {
+      opacity: 1;
+  }
+}

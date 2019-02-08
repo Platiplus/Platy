@@ -1,3 +1,10 @@
+.transitioning {
+  animation: fadein .5s;
+  -moz-animation: fadein .5s; /* Firefox */
+  -webkit-animation: fadein .5s; /* Safari and Chrome */
+  -o-animation: fadein .5s; /* Opera */
+}
+
 .card {
   border: 0;
   margin-bottom: 30px;

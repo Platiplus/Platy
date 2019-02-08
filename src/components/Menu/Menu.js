@@ -1,8 +1,12 @@
+//REACT STUFF
 import React, {Component} from 'react';
-import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import Dashboard from '../../pages/Dashboard/Dashboard';
-import Transactions from '../../pages/Transactions/Transactions';
+//SIDEBAR NAVIGATION
+import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
+//COMPONENT ROUTES
+import Dashboard from 'pages/Dashboard/Dashboard';
+import Transactions from 'pages/Transactions/Transactions';
+//STYLES
 import './Menu.scss';
 
 export default class Menu extends Component{

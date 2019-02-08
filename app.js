@@ -6,7 +6,9 @@ const cors = require('cors');
 const app = express();
 
 //ROUTES IMPORTING
-/*ROUTES GO HERE*/
+const userRoutes = require('./api/routes/users_routes');
+const transactionRoutes = require('./api/routes/transactions_routes');
+const balanceRoutes = require('./api/routes/balance_routes');
 
 //MIDDLEWARES
 app.use(bodyParser.urlencoded({extended: false}));
@@ -14,7 +16,9 @@ app.use(bodyParser.json());
 app.use(cors());
 
 //ROUTES DECLARATION
-/*ROUTES GO HERE*/
+app.use('/api/users', userRoutes);
+app.use('/api/transactions', transactionRoutes);
+app.use('/api/balance', balanceRoutes);
 
 //DB CONNECTION
 mongoose.connect('mongodb+srv://'+ process.env.DB_USER +':'+ process.env.DB_PWD +'@' + process.env.DB_SRV + process.env.DB_OPTIONS);

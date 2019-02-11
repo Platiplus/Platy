@@ -17,6 +17,8 @@ router.post('/last_transaction', DashboardController.fetch_last_TRANSACTION);
 router.post('/flux6', DashboardController.fetch_flux6_MONTHS);
 //FETCH COMPARE LAST MONTH
 router.post('/compare', DashboardController.fetch_compareLast_MONTH);
+//FETCH LAST 4 TRANSACTIONS
+router.post('/last_4', DashboardController.fetch_dashboard_last_TRANSACTION);
 
 
 //ROUTER EXPORTING

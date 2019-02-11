@@ -318,3 +318,31 @@ exports.fetch_compareLast_MONTH = (request, response, next) => {
         response.status(500).json({error: true, data: error.message});
     });
 };
+
+//FETCH 4 LAST TRANSACTIONS
+exports.fetch_dashboard_last_TRANSACTION = (request, response, next) => {
+    let threshold = moment().endOf('month');
+    Transaction.find({owner: request.body.owner, date:{$lte: threshold}, status: true})
+    .sort({date: -1})
+    .limit(4)
+    .exec()
+    .then((collection) => {
+        let results = [];
+
+        collection.forEach(element => {
+                results.push({
+                    type: element['type'],
+                    date: moment(element['date']).format('YYYY-MM-DD'),
+                    description: element['description'],
+                    value: 'R$ ' + element['value'],
+                    category: element['category'],
+                    status: element['status']
+                });
+        });
+
+        response.status(200).json({error: false, data: results});
+    })
+    .catch((error) => {
+        response.status(500).json({error: true, data: error.message});
+    });
+};

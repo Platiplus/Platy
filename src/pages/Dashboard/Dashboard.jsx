@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import Card from 'components/Card/Card';
 import LineChart from 'components/Chart/LineChart';
 import BarChart from 'components/Chart/BarChart';
+import TransactionsTable from 'components/Table/Table';
 import axios from 'axios';
 import './Dashboard.scss';
 
@@ -15,19 +16,22 @@ export default class Dashboard extends Component{
   ];
 
   flux_chart_url = 'dashboard/flux6';
-  compare_chart_url = 'dashboard/compare'; 
+  compare_chart_url = 'dashboard/compare';
+  last_transactions_url = 'dashboard/last_4'; 
   
   owner = '5b47c2c9f7e56d0a404245db';
 
   state = {
     cards : [],
-    flux: {},
-    compare: {}
+    flux: [],
+    compare: [],
+    last_transactions: []
   };
 
   componentDidMount(){
     this.loadStatsCards(this);
     this.loadChartCards(this);
+    this.loadTransactionCard(this);
   }
 
   render(){
@@ -40,11 +44,18 @@ export default class Dashboard extends Component{
         </div>
         <div className="row">
          {
-           this.flux
+           this.state.flux
          }
         {
-          this.compare
+          this.state.compare
           }
+        </div>
+        <div className="row">
+          <div className="col-12">
+          {
+            this.state.last_transactions
+          }
+          </div>
         </div>
       </div>);
   };
@@ -66,14 +77,20 @@ export default class Dashboard extends Component{
   
   loadChartCards(context){
     axios.post(process.env.REACT_APP_API + context.flux_chart_url, {owner: context.owner}).then((chart_data) => {
-      context.flux = <LineChart info={{header: 'Fluxo de Caixa', description: 'Últimos 6 meses', chart: chart_data['data']['data']}}/>
+      context.state.flux = <LineChart info={{header: 'Fluxo de Caixa', description: 'Últimos 6 meses', chart: chart_data['data']['data']}}/>
       context.setState(this.state.flux);
     });
 
     axios.post(process.env.REACT_APP_API + context.compare_chart_url, {owner: context.owner}).then((chart_data) => {
-      console.log(chart_data);
-      context.compare = <BarChart info={{header: 'Comparativo mês a mês', description: 'Mês passado e atual', chart: chart_data['data']['data']}}/>
+      context.state.compare = <BarChart info={{header: 'Comparativo mês a mês', description: 'Mês passado e atual', chart: chart_data['data']['data']}}/>
       context.setState(this.state.compare);
+    });
+  }
+
+  loadTransactionCard(context){
+    axios.post(process.env.REACT_APP_API + context.last_transactions_url, {owner: context.owner}).then((last_transactions) => {
+      context.state.last_transactions = <TransactionsTable data={last_transactions['data']['data']}/>
+      context.setState(this.state.last_transactions);
     });
   }
 }

@@ -20,7 +20,7 @@ export default class LineChart extends Component{
             <p className="card-chart-category">{description}</p>
         </div>
         <div className="card-body">
-        <Chart data={chart} options={chart_options} width="600" height="250"/>
+        <Chart data={chart} options={chart_options} width="600" height="180"/>
         </div>
       </div>
     </div>);

@@ -152,3 +152,169 @@ exports.fetch_last_TRANSACTION = (request, response, next) => {
       response.status(500).json({error: true, data: error.message});
   });
 };
+
+//FIND INCOMES AND OUTCOMES (PREDICTED AND EXECUTED) FROM LAST 6 MONTHS
+exports.fetch_flux6_MONTHS = (request, response, next) => {
+    let begin = moment().subtract(5, 'months').startOf('day').startOf('month');
+    let end = moment().endOf('day').endOf('month');
+
+    Transaction.find({owner: request.body.owner, date: {$gte: begin, $lte: end}})
+    .select('date type value status')
+    .sort({date: 1})
+    .exec()
+    .then((collection) => {
+        let monthCounter = 0;
+        let results = {
+            labels: [],
+            incomes: [],
+            outcomes: []
+        };
+
+        if(collection[0] === undefined){
+            response.status(200).json({error: false, data: results});
+        } else {
+            results.labels.push(moment(collection[0]['date']).format('MMM'));
+            results.incomes.push(0);
+            results.outcomes.push(0);
+
+            collection.forEach((element) => {
+                if(moment(element['date']).format('MMM') === results.labels[monthCounter]){
+                    if(element['type'] === 1){
+                        results['outcomes'][monthCounter] += element['value'];
+                    } else {
+                            results['incomes'][monthCounter] += element['value'];
+                        }
+                } else {
+                    results.incomes[monthCounter] = Number(results.incomes[monthCounter].toFixed(2));
+                    results.outcomes[monthCounter] = Number(results.outcomes[monthCounter].toFixed(2));
+
+                    results.labels.push(moment(element['date']).format('MMM'));
+                    results.incomes.push(0);
+                    results.outcomes.push(0);
+                    monthCounter++;
+
+                    if(element['type'] === 1){
+                        results['outcomes'][monthCounter] += element['value'];
+                    } else {
+                            results['incomes'][monthCounter] += element['value'];
+                        }       
+                }
+            });
+
+        results.incomes[monthCounter] = Number(results.incomes[monthCounter].toFixed(2));
+        results.outcomes[monthCounter] = Number(results.outcomes[monthCounter].toFixed(2));
+
+        let chart_data = {
+            labels: results.labels,
+            datasets: [
+            {
+                label: "Recebimentos",
+                fillColor: "rgba(39, 177, 45, 0.2)",
+                strokeColor: "rgba(39, 177, 45, 1)",
+                pointColor: "rgba(39, 177, 45, 1)",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(39, 177, 45, 1)",
+                data: results.incomes
+            },
+            {
+                label: "Despesas",
+                fillColor: "rgba(248, 41, 34, 0.2)",
+                strokeColor: "rgba(248, 41, 34, 1)",
+                pointColor: "rgba(248, 41, 34, 1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(248, 41, 34, 1)",
+                data: results.outcomes
+            }
+        ]};
+
+        response.status(200).json({error: false, data: chart_data});
+        }
+    })
+    .catch((error) => {
+        response.status(500).json({error: true, data: error.message});
+    });
+};
+
+//FIND INCOMES AND OUTCOMES (PREDICTED AND EXECUTED) FROM CURRENT MONTH
+exports.fetch_compareLast_MONTH = (request, response, next) => {
+    let begin = moment().subtract(1, 'months').startOf('day').startOf('month');
+    let end = moment().endOf('day').endOf('month');
+
+    Transaction.find({owner: request.body.owner, date: {$gte: begin, $lte: end}})
+    .select('date type value status')
+    .sort({date: 1})
+    .exec()
+    .then((collection) => {
+        let monthCounter = 0;
+        let results = {
+            labels: [],
+            incomes: [],
+            outcomes: []
+        };
+        
+        if(collection[0] === undefined){
+            response.status(200).json({error: false, data: results});
+        } else {
+            results.labels.push(moment(collection[0]['date']).format('MMM'));
+            results.incomes.push(0);
+            results.outcomes.push(0);
+
+            collection.forEach((element) => {
+                if(moment(element['date']).format('MMM') === results.labels[monthCounter]){
+                    if(element['type'] === 1){
+                        results['outcomes'][monthCounter] += element['value'];
+                    } else {
+                            results['incomes'][monthCounter] += element['value'];
+                        }
+                } else {
+                    results.incomes[monthCounter] = Number(results.incomes[monthCounter].toFixed(2));
+                    results.outcomes[monthCounter] = Number(results.outcomes[monthCounter].toFixed(2));
+
+                    results.labels.push(moment(element['date']).format('MMM'));
+                    results.incomes.push(0);
+                    results.outcomes.push(0);
+                    monthCounter++;
+
+                    if(element['type'] === 1){
+                        results['outcomes'][monthCounter] += element['value'];
+                    } else {
+                            results['incomes'][monthCounter] += element['value'];
+                        }       
+                }
+            });
+
+        results.incomes[monthCounter] = Number(results.incomes[monthCounter].toFixed(2));
+        results.outcomes[monthCounter] = Number(results.outcomes[monthCounter].toFixed(2));
+
+        let chart_data = {
+            labels: results.labels,
+            datasets: [
+            {
+                label: "Recebimentos",
+                fillColor: "rgba(39, 177, 45, 0.2)",
+                strokeColor: "rgba(39, 177, 45, 1)",
+                pointColor: "rgba(39, 177, 45, 1)",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(39, 177, 45, 1)",
+                data: results.incomes
+            },
+            {
+                label: "Despesas",
+                fillColor: "rgba(248, 41, 34, 0.2)",
+                strokeColor: "rgba(248, 41, 34, 1)",
+                pointColor: "rgba(248, 41, 34, 1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(248, 41, 34, 1)",
+                data: results.outcomes
+            }
+        ]};
+
+        response.status(200).json({error: false, data: chart_data});
+        }
+    })
+    .catch((error) => {
+        response.status(500).json({error: true, data: error.message});
+    });
+};

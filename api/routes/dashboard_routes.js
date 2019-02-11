@@ -13,6 +13,11 @@ router.post('/income', DashboardController.fetch_income_state_current_MONTH);
 router.post('/outcome', DashboardController.fetch_outcome_state_current_MONTH);
 //FETCH LAST TRANSACTION
 router.post('/last_transaction', DashboardController.fetch_last_TRANSACTION);
+//FETCH FLUX FROM LAST 6 MONTHS
+router.post('/flux6', DashboardController.fetch_flux6_MONTHS);
+//FETCH COMPARE LAST MONTH
+router.post('/compare', DashboardController.fetch_compareLast_MONTH);
+
 
 //ROUTER EXPORTING
 module.exports = router;

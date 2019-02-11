@@ -1,8 +1,9 @@
 import React, {Component} from "react";
-import './Dashboard.scss';
 import Card from 'components/Card/Card';
-import Chart from 'components/Chart/Chart';
+import LineChart from 'components/Chart/LineChart';
+import BarChart from 'components/Chart/BarChart';
 import axios from 'axios';
+import './Dashboard.scss';
 
 export default class Dashboard extends Component{
 
@@ -13,14 +14,20 @@ export default class Dashboard extends Component{
     'dashboard/last_transaction',
   ];
 
+  flux_chart_url = 'dashboard/flux6';
+  compare_chart_url = 'dashboard/compare'; 
+  
   owner = '5b47c2c9f7e56d0a404245db';
 
   state = {
-    cards : []
+    cards : [],
+    flux: {},
+    compare: {}
   };
 
   componentDidMount(){
     this.loadStatsCards(this);
+    this.loadChartCards(this);
   }
 
   render(){
@@ -32,8 +39,11 @@ export default class Dashboard extends Component{
         }        
         </div>
         <div className="row">
-          {
-           this.state.cards.map(card => <Chart key={(Math.random() * 100).toFixed(2)}/>) 
+         {
+           this.flux
+         }
+        {
+          this.compare
           }
         </div>
       </div>);
@@ -51,6 +61,19 @@ export default class Dashboard extends Component{
         context.state.cards.push(card['data']['data']);
       })
       context.setState(context.state.cards);
+    });
+  }
+  
+  loadChartCards(context){
+    axios.post(process.env.REACT_APP_API + context.flux_chart_url, {owner: context.owner}).then((chart_data) => {
+      context.flux = <LineChart info={{header: 'Fluxo de Caixa', description: 'Últimos 6 meses', chart: chart_data['data']['data']}}/>
+      context.setState(this.state.flux);
+    });
+
+    axios.post(process.env.REACT_APP_API + context.compare_chart_url, {owner: context.owner}).then((chart_data) => {
+      console.log(chart_data);
+      context.compare = <BarChart info={{header: 'Comparativo mês a mês', description: 'Mês passado e atual', chart: chart_data['data']['data']}}/>
+      context.setState(this.state.compare);
     });
   }
 }

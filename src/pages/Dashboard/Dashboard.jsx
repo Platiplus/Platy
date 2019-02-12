@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import Card from 'components/Card/Card';
 import LineChart from 'components/Chart/LineChart';
 import BarChart from 'components/Chart/BarChart';
-import TransactionsTable from 'components/Table/Table';
+import DashboardTable from 'components/Table/DashboardTable';
 import axios from 'axios';
 import './Dashboard.scss';
 
@@ -73,7 +73,7 @@ export default class Dashboard extends Component{
       })
       context.setState(context.state.cards);
     });
-  }
+  };
   
   loadChartCards(context){
     axios.post(process.env.REACT_APP_API + context.flux_chart_url, {owner: context.owner}).then((chart_data) => {
@@ -85,12 +85,12 @@ export default class Dashboard extends Component{
       context.state.compare = <BarChart info={{header: 'Comparativo mês a mês', description: 'Mês passado e atual', chart: chart_data['data']['data']}}/>
       context.setState(this.state.compare);
     });
-  }
+  };
 
   loadTransactionCard(context){
     axios.post(process.env.REACT_APP_API + context.last_transactions_url, {owner: context.owner}).then((last_transactions) => {
-      context.state.last_transactions = <TransactionsTable data={last_transactions['data']['data']}/>
+      context.state.last_transactions = <DashboardTable data={last_transactions['data']['data']}/>
       context.setState(this.state.last_transactions);
     });
-  }
+  };
 }

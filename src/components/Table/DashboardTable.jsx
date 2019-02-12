@@ -6,29 +6,37 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
 
 const styles = theme => ({
   root: {
     width: '100%',
     marginBottom: theme.spacing.unit * 3,
-    overflowX: 'auto',
-  },
-  table: {
-    minWidth: 700,
-  },
+  }
 });
 
 let id = 0;
 function createData({type, date, description, value, category, status}) {
   id += 1;
+
+  if(type === 1){
+    type = (<i className="material-icons" style={{color: '#E8413D'}}>expand_more</i>);
+  } else {
+    type = (<i className="material-icons" style={{color: '#3C763D'}}>expand_less</i>);
+  }
+
+  if(status === true){
+    status = (<span className="btn btn-success">Pago</span>);
+  } else {
+    status = (<span className="btn btn-warning">Pendente</span>);
+  }
+  
   return { id, type, date, description, value, category, status };
 }
 
-const rows = [];
-
 function SimpleTable(props) {
   const { classes, data } = props;
+
+  const rows = [];
   
   data.map((row) => {
     rows.push(createData(row));
@@ -40,7 +48,7 @@ function SimpleTable(props) {
             <h4 className="card-chart-title">Últimas Transações</h4>
             <p className="card-chart-category">Despesas e Recebimentos</p>
         </div>
-        <div className="card-body">
+        <div className="card-body" style={{overflowX:'auto'}}>
           <Table className={classes.table}>
             <TableHead>
               <TableRow>
@@ -62,7 +70,7 @@ function SimpleTable(props) {
                   <TableCell align="right">{row.description}</TableCell>
                   <TableCell align="right">{row.value}</TableCell>
                   <TableCell align="right">{row.category}</TableCell>
-                  <TableCell align="right">{row.status.toString()}</TableCell>
+                  <TableCell align="right">{row.status}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

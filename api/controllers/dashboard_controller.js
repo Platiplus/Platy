@@ -40,7 +40,8 @@ exports.fetch_user_current_BALANCE = (request, response, next) => {
             header: "Saldo Atual",
             icon: "account_balance_wallet",
             balance: currentBalance,
-            footer: "Saldo Atualizado"
+            footer: "Saldo Atualizado",
+            spacing: 3
           };
 
           response.status(200).json({error: false, data: card});
@@ -80,7 +81,8 @@ exports.fetch_income_state_current_MONTH = (request, response, next) => {
         header: "Recebimentos",
         icon: "add_circle",
         balance: results['income_executed'],
-        footer: `Previsto: R$ ${results['income_prediction']}`
+        footer: `Previsto: R$ ${results['income_prediction']}`,
+        spacing: 3
       };
 
       response.status(200).json({error: false, data: card});
@@ -119,7 +121,8 @@ exports.fetch_outcome_state_current_MONTH = (request, response, next) => {
         header: "Despesas",
         icon: "remove_circle",
         balance: results['outcome_executed'],
-        footer: `Previsto: R$ ${results['outcome_prediction']}`
+        footer: `Previsto: R$ ${results['outcome_prediction']}`,
+        spacing: 3
       };
 
       response.status(200).json({error: false, data: card});
@@ -143,7 +146,8 @@ exports.fetch_last_TRANSACTION = (request, response, next) => {
       header: "Última transação",
       icon: "attach_money",
       balance: collection[0]['value'],
-      footer: collection[0]['description']
+      footer: collection[0]['description'],
+      spacing: 3
     };
 
       response.status(200).json({error: false, data: card});
@@ -330,14 +334,14 @@ exports.fetch_dashboard_last_TRANSACTION = (request, response, next) => {
         let results = [];
 
         collection.forEach(element => {
-                results.push({
-                    type: element['type'],
-                    date: moment(element['date']).format('YYYY-MM-DD'),
-                    description: element['description'],
-                    value: 'R$ ' + element['value'],
-                    category: element['category'],
-                    status: element['status']
-                });
+            results.push({
+                type: element['type'],
+                date: moment(element['date']).format('YYYY-MM-DD'),
+                description: element['description'],
+                value: 'R$ ' + element['value'],
+                category: element['category'],
+                status: element['status']
+            });
         });
 
         response.status(200).json({error: false, data: results});

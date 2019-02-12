@@ -8,7 +8,7 @@ const app = express();
 //ROUTES IMPORTING
 const userRoutes = require('./api/routes/users_routes');
 const dashboardRoutes = require('./api/routes/dashboard_routes');
-const balanceRoutes = require('./api/routes/balance_routes');
+const transactionsRoutes = require('./api/routes/transactions_routes');
 
 //MIDDLEWARES
 app.use(bodyParser.urlencoded({extended: false}));
@@ -18,10 +18,10 @@ app.use(cors());
 //ROUTES DECLARATION
 app.use('/api/users', userRoutes);
 app.use('/api/dashboard', dashboardRoutes);
-app.use('/api/balance', balanceRoutes);
+app.use('/api/transactions', transactionsRoutes);
 
 //DB CONNECTION
-mongoose.connect('mongodb+srv://'+ process.env.DB_USER +':'+ process.env.DB_PWD +'@' + process.env.DB_SRV + process.env.DB_OPTIONS);
+mongoose.connect('mongodb+srv://'+ process.env.DB_USER +':'+ process.env.DB_PWD +'@' + process.env.DB_SRV + process.env.DB_OPTIONS, { useNewUrlParser: true });
 
 //ERROR 404 HANDLING
 app.use((request, response, next) => {

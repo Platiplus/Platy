@@ -52,25 +52,29 @@ class ScrollableTabsButtonAuto extends React.Component {
   };
 
   render() {
-    const { classes, dates } = this.props;
-    const { value } = this.state;
+    const { classes } = this.props;
+    const { value, transactions } = this.state;
 
-    return (
-      <div className='col-12'>
-      <div className={classes.root}>
-        <AppBar position="static">
-          <Tabs value={value} onChange={this.handleChange}>
-            <Tab value="incomes" label="Recebimentos" />
-            <Tab value="fixed_outcomes" label="Despesas Fixas" />
-            <Tab value="variant_outcomes" label="Despesas Variáveis" />
-          </Tabs>
-        </AppBar>
-        {value === 'incomes' && <TabContainer><TransactionsTable data={this.state.transactions.incomes}/></TabContainer>}
-        {value === 'fixed_outcomes' && <TabContainer><TransactionsTable data={this.state.transactions.fixed_outcomes}/></TabContainer>}
-        {value === 'variant_outcomes' && <TabContainer><TransactionsTable data={this.state.transactions.variant_outcomes}/></TabContainer>}
-      </div>
-      </div>
-    );
+    if(transactions.incomes[0] !== undefined){
+      return (
+        <div className='col-12'>
+        <div className={classes.root}>
+          <AppBar position="static">
+            <Tabs value={value} onChange={this.handleChange}>
+              <Tab value="incomes" label="Recebimentos" />
+              <Tab value="fixed_outcomes" label="Despesas Fixas" />
+              <Tab value="variant_outcomes" label="Despesas Variáveis" />
+            </Tabs>
+          </AppBar>
+          {value === 'incomes' && <TabContainer><TransactionsTable data={transactions.incomes}/></TabContainer>}
+          {value === 'fixed_outcomes' && <TabContainer><TransactionsTable data={transactions.fixed_outcomes}/></TabContainer>}
+          {value === 'variant_outcomes' && <TabContainer><TransactionsTable data={transactions.variant_outcomes}/></TabContainer>}
+        </div>
+        </div>
+      );
+    } else {
+      return null;
+    }
   }
 
   fetchTransactions(context){

@@ -17,4 +17,13 @@ router.post('/outcomes', TransactionsController.fetch_outcome_state_specific_MON
 //FETCH MONTH TRANSACTIONS
 router.post('/month_transactions', TransactionsController.fetch_month_TRANSACTIONS);
 
+//ADD TRANSACTION
+router.post('/add', TransactionsController.add_TRANSACTION);
+
+//UPDATE TRANSACTION
+router.post('/update', TransactionsController.update_TRANSACTION);
+
+//DELETE TRANSACTION
+router.post('/delete', TransactionsController.delete_TRANSACTION);
+
 module.exports = router;

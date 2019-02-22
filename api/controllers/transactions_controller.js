@@ -1,5 +1,7 @@
 //DEPENDENCIES
 const moment = require('moment');
+const mongoose = require('mongoose');
+
 //MODEL IMPORTING
 const Transaction = require('../models/transaction_model');
 
@@ -157,4 +159,52 @@ exports.fetch_month_TRANSACTIONS = (request, response, next) => {
     .catch((error) => {
         response.status(500).json({error: true, data: error.message});
     });
+};
+
+//ADD A TRANSACTION INTO THE DATABASE
+exports.add_TRANSACTION = (request, response, next) => {
+  const transaction = new Transaction({
+      _id: mongoose.Types.ObjectId(),
+      type:           request.body.type,
+      date:           moment(request.body.date),
+      description :   request.body.description,
+      target:         request.body.target,
+      value:          request.body.value,
+      category:       request.body.category,
+      status:         request.body.status,
+      owner: mongoose.Types.ObjectId(request.body.owner),
+      fixed: request.body.fixed
+  });
+  transaction.save()
+  .then((result) => {
+      response.status(201).json({error: false, data: result});
+  })
+  .catch((error) => {
+    console.log(error);
+      response.status(500).json({error: true, data: error.message});
+  });
+};
+
+//UPDATE A TRANSACTION INTO THE DATABASE
+exports.update_TRANSACTION = (request, response, next) => {
+  Transaction.update({_id: request.body.transaction_id}, {$set: request.body.transaction})
+  .exec()
+  .then((result) => {
+      response.status(200).json({error: false, data: 'Transaction update succesfully', result: result});
+  })
+  .catch((error) => {
+      response.status(500).json({error: false, data: error.message});
+  });
+};
+
+//DELETE A TRANSACTION FROM THE BANK
+exports.delete_TRANSACTION = (request, response, next) => {
+  Transaction.findOneAndRemove({_id: request.body.transaction_id})
+  .exec()
+  .then((result) => {
+      response.status(200).json({error: false, data: 'Transaction removed successfully', result: result});
+  })
+  .catch((error) => {
+      response.status(500).json({error: true, data: error.message});
+  });
 };

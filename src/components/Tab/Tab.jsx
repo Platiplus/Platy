@@ -32,7 +32,8 @@ class ScrollableTabsButtonAuto extends React.Component {
 
   url = 'transactions/month_transactions';
 
-  owner = '5b47c2c9f7e56d0a404245db';
+  // owner = '5b47c2c9f7e56d0a404245db';
+  owner = '5c7048fefcf5cf00148a9016';
 
   state = {
     value: 'incomes',
@@ -66,9 +67,9 @@ class ScrollableTabsButtonAuto extends React.Component {
               <Tab value="variant_outcomes" label="Despesas Variáveis" />
             </Tabs>
           </AppBar>
-          {value === 'incomes' && <TabContainer><TransactionsTable data={transactions.incomes}/></TabContainer>}
-          {value === 'fixed_outcomes' && <TabContainer><TransactionsTable data={transactions.fixed_outcomes}/></TabContainer>}
-          {value === 'variant_outcomes' && <TabContainer><TransactionsTable data={transactions.variant_outcomes}/></TabContainer>}
+          {value === 'incomes' && <TabContainer><TransactionsTable type={2} fixed={false} data={transactions.incomes}/></TabContainer>}
+          {value === 'fixed_outcomes' && <TabContainer><TransactionsTable type={1} fixed={true} data={transactions.fixed_outcomes}/></TabContainer>}
+          {value === 'variant_outcomes' && <TabContainer><TransactionsTable type={1} fixed={false} data={transactions.variant_outcomes}/></TabContainer>}
         </div>
         </div>
       );

@@ -19,7 +19,8 @@ export default class Dashboard extends Component{
   compare_chart_url = 'dashboard/compare';
   last_transactions_url = 'dashboard/last_4'; 
   
-  owner = '5b47c2c9f7e56d0a404245db';
+  // owner = '5b47c2c9f7e56d0a404245db';
+  owner = '5c7048fefcf5cf00148a9016';
 
   state = {
     cards : [],

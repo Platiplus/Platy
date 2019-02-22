@@ -13,7 +13,8 @@ export default class Transactions extends Component{
     'transactions/outcomes',
   ];
   
-  owner = '5b47c2c9f7e56d0a404245db';
+  // owner = '5b47c2c9f7e56d0a404245db';
+  owner = '5c7048fefcf5cf00148a9016';
 
   state = {
     cards : [],

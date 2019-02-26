@@ -5,13 +5,12 @@ export default class Card extends Component{
 
   render(){
     let {header, balance, icon, footer, spacing} = this.props.info;
-    //Colors will be randomly assigned until some sort of logic is implemented
-    let color = ['success', 'warning', 'info', 'danger'];
-    let random_color = color[Math.floor(Math.random() * Math.floor(4))];
+    //The color for all Cards is temporarily green cuz i'm getting annoyed by all the color switching
+    let color = 'success';
     return(
     <div className={`col-lg-${spacing} col-md-6 col-sm-6`}>
       <div className="card card-stats transitioning">
-        <div className={`card-header card-header-${random_color} card-header-icon`}>
+        <div className={`card-header card-header-${color} card-header-icon`}>
           <div className="card-icon">
             <i className="material-icons">{icon}</i>
           </div>

@@ -78,7 +78,7 @@ class ScrollableTabsButtonAuto extends React.Component {
     const { value, transactions } = this.state;
       return (
         <div className='col-12'>
-        <div className={classes.root}>
+        <div className={classes.root} style={{marginTop: '20px'}}>
           <AppBar position="static">
             <Tabs value={value} onChange={this.handleChange}>
               <Tab value="incomes" label="Recebimentos" />
@@ -86,9 +86,9 @@ class ScrollableTabsButtonAuto extends React.Component {
               <Tab value="variant_outcomes" label="Despesas Variáveis" />
             </Tabs>
           </AppBar>
-          {!this.state.loading && value === 'incomes' && <TabContainer><TransactionsTable type={2} fixed={false} date={initial_date} data={transactions.incomes}/></TabContainer>}
-          {!this.state.loading && value === 'fixed_outcomes' && <TabContainer><TransactionsTable type={1} fixed={true} date={initial_date} data={transactions.fixed_outcomes}/></TabContainer>}
-          {!this.state.loading && value === 'variant_outcomes' && <TabContainer><TransactionsTable type={1} fixed={false} date={initial_date} data={transactions.variant_outcomes}/></TabContainer>}
+          {!this.state.loading && value === 'incomes' && <TabContainer><TransactionsTable type={2} fixed={false} date={initial_date} data={transactions.incomes} update={this.props.update}/></TabContainer>}
+          {!this.state.loading && value === 'fixed_outcomes' && <TabContainer><TransactionsTable type={1} fixed={true} date={initial_date} data={transactions.fixed_outcomes} update={this.props.update}/></TabContainer>}
+          {!this.state.loading && value === 'variant_outcomes' && <TabContainer><TransactionsTable type={1} fixed={false} date={initial_date} data={transactions.variant_outcomes} update={this.props.update}/></TabContainer>}
         </div>
         </div>
       );

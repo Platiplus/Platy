@@ -7,6 +7,10 @@ import MonthPickerInput from 'react-month-picker-input';
 import './Transactions.scss';
 
 export default class Transactions extends Component{
+  constructor(props) {
+    super(props)
+    this.handler = this.handler.bind(this);
+  }
 
   cards_urls = [
     'transactions/profit',
@@ -20,22 +24,28 @@ export default class Transactions extends Component{
   state = {
     cards : [],
     initial_date: moment().startOf('month'),
-    end_date: moment().endOf('month')
+    end_date: moment().endOf('month'),
+    update_cards: false
   };
 
   componentDidMount(){
     this.loadStatsCards(this.state);
   }
 
-componentWillUpdate(next_props, next_state){
-  if(this.state.initial_date !== next_state.initial_date){
-    this.loadStatsCards(next_state);
-    }
-}
+  handler() {
+    this.setState({
+      update_cards: !this.state.update_cards
+    });
+  }
+
+  componentWillUpdate(next_props, next_state){
+    if(this.state.initial_date !== next_state.initial_date || this.state.update_cards !== next_state.update_cards){
+      this.loadStatsCards(next_state);
+      }
+  }
   
   render(){
     const {initial_date, end_date, cards} = this.state;
-
     return (
       <div className="col-12">
         <div className="row">
@@ -60,7 +70,7 @@ componentWillUpdate(next_props, next_state){
           </div>
         </div>
         <div className="row">
-          <Tabs initial_date={initial_date} end_date={end_date}/>
+          <Tabs update={this.handler} initial_date={initial_date} end_date={end_date}/>
         </div>
       </div>
     );

@@ -92,6 +92,7 @@ export default class TransactionsTable extends Component {
           data.push(new_row);
           this.setState({ data });
         }
+        this.props.update();
       });
     }
 
@@ -99,31 +100,33 @@ export default class TransactionsTable extends Component {
       let transaction_id = Object.keys(changed)[0];
       let transaction = changed[transaction_id];
 
-      if(transaction['date']){
-        let new_date = transaction['date'].split(/d{0,}\//g);
-        transaction['date'] = moment(new_date.reverse().join('-'));
-      }
-
-      let body = {
-        transaction_id,
-        transaction
-      };
-
-      axios.post(process.env.REACT_APP_API + 'transactions/update', body).then((result) => {
-        if(date.format('YYYY-MMM') === moment(transaction['date']).format('YYYY-MMM')){
-          data = data.map(row => (changed[row._id] ? { ...row, ...changed[row._id] } : row));
-        } else {
-          let moved = '';
-          data.find((transaction) => {
-            console.log(transaction);
-            if(transaction._id === transaction_id){
-              moved = data.indexOf(transaction);
-            }
-          });
-          data.splice(moved, 1);
+      if (transaction !== undefined){
+        if(transaction['date']){
+          let new_date = transaction['date'].split(/d{0,}\//g);
+          transaction['date'] = moment(new_date.reverse().join('-'));
         }
-        this.setState({ data });
-      });
+  
+        let body = {
+          transaction_id,
+          transaction
+        };
+  
+        axios.post(process.env.REACT_APP_API + 'transactions/update', body).then((result) => {
+          if(date.format('YYYY-MMM') === moment(transaction['date']).format('YYYY-MMM')){
+            data = data.map(row => (changed[row._id] ? { ...row, ...changed[row._id] } : row));
+          } else {
+            let moved = '';
+            data.find((transaction) => {
+              if(transaction._id === transaction_id){
+                moved = data.indexOf(transaction);
+              }
+            });
+            data.splice(moved, 1);
+          }
+          this.setState({ data });
+          this.props.update();
+        });
+      }
     }
 
     if (deleted) {
@@ -140,9 +143,9 @@ export default class TransactionsTable extends Component {
         data.splice(deleted, 1);
 
         this.setState({ data });
+        this.props.update();
       });      
     }
-
   }
 
   render() {

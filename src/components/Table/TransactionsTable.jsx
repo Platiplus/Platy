@@ -55,6 +55,12 @@ export default class TransactionsTable extends Component {
     ]
   };
 
+  componentWillReceiveProps(next_props){
+    if(this.props !== next_props){
+      this.setState({data: next_props.data, date: next_props.date});
+    }
+  }
+
   createData({_id, date, description, value, category, target, status}) { 
     date = moment(date).format('DD/MM/YYYY');
     status === true ? status = 'PAGO' : status = 'PENDENTE';
@@ -65,6 +71,7 @@ export default class TransactionsTable extends Component {
   changePageSize = pageSize => this.setState({ pageSize });
 
   commitChanges({ added, changed, deleted }) {
+    let { date } = this.props;
     let { data } = this.state;
     
     if (added) {
@@ -80,8 +87,11 @@ export default class TransactionsTable extends Component {
 
       axios.post(process.env.REACT_APP_API + 'transactions/add', new_row).then((transaction_id) => {
         new_row['_id'] = transaction_id['data']['data']['_id'];
-        data.push(new_row);
-        this.setState({ data });
+        
+        if(date.format('YYYY-MMM') === moment(new_row['date']).format('YYYY-MMM')){
+          data.push(new_row);
+          this.setState({ data });
+        }
       });
     }
 
@@ -100,7 +110,18 @@ export default class TransactionsTable extends Component {
       };
 
       axios.post(process.env.REACT_APP_API + 'transactions/update', body).then((result) => {
-        data = data.map(row => (changed[row._id] ? { ...row, ...changed[row._id] } : row));
+        if(date.format('YYYY-MMM') === moment(transaction['date']).format('YYYY-MMM')){
+          data = data.map(row => (changed[row._id] ? { ...row, ...changed[row._id] } : row));
+        } else {
+          let moved = '';
+          data.find((transaction) => {
+            console.log(transaction);
+            if(transaction._id === transaction_id){
+              moved = data.indexOf(transaction);
+            }
+          });
+          data.splice(moved, 1);
+        }
         this.setState({ data });
       });
     }

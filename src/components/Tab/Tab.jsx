@@ -41,19 +41,40 @@ class ScrollableTabsButtonAuto extends React.Component {
       incomes: [],
       fixed_outcomes: [],
       variant_outcomes: []
-    }
+    },
+    loading: true
   };
 
-  componentDidUpdate(){
-    this.fetchTransactions(this);
+  componentWillMount(){
+    this.fetchTransactions(this.props);
+  }
+
+  componentWillReceiveProps(next_props){
+    if(this.props !== next_props){
+      this.fetchTransactions(next_props);
+    }
   }
 
   handleChange = (event, value) => {
     this.setState({ value });
   };
 
+  fetchTransactions(props){
+    const {initial_date, end_date} = props;
+
+    axios.post(process.env.REACT_APP_API + this.url, {owner: this.owner, initial_date: initial_date, end_date: end_date})
+    .then((transactions_list) => {
+      let transactions = Object.assign({}, this.state.transactions, {
+        incomes: transactions_list['data']['data'].income,
+        fixed_outcomes: transactions_list['data']['data'].outcome_fixed,
+        variant_outcomes: transactions_list['data']['data'].outcome
+      });
+      this.setState({transactions, loading: false});
+    });
+  }
+
   render() {
-    const { classes } = this.props;
+    const { classes, initial_date } = this.props;
     const { value, transactions } = this.state;
       return (
         <div className='col-12'>
@@ -65,24 +86,13 @@ class ScrollableTabsButtonAuto extends React.Component {
               <Tab value="variant_outcomes" label="Despesas Variáveis" />
             </Tabs>
           </AppBar>
-          {value === 'incomes' && <TabContainer><TransactionsTable type={2} fixed={false} data={transactions.incomes}/></TabContainer>}
-          {value === 'fixed_outcomes' && <TabContainer><TransactionsTable type={1} fixed={true} data={transactions.fixed_outcomes}/></TabContainer>}
-          {value === 'variant_outcomes' && <TabContainer><TransactionsTable type={1} fixed={false} data={transactions.variant_outcomes}/></TabContainer>}
+          {!this.state.loading && value === 'incomes' && <TabContainer><TransactionsTable type={2} fixed={false} date={initial_date} data={transactions.incomes}/></TabContainer>}
+          {!this.state.loading && value === 'fixed_outcomes' && <TabContainer><TransactionsTable type={1} fixed={true} date={initial_date} data={transactions.fixed_outcomes}/></TabContainer>}
+          {!this.state.loading && value === 'variant_outcomes' && <TabContainer><TransactionsTable type={1} fixed={false} date={initial_date} data={transactions.variant_outcomes}/></TabContainer>}
         </div>
         </div>
       );
   }
-
-  fetchTransactions(context){
-    axios.post(process.env.REACT_APP_API + context.url, {owner: context.owner, initial_date: context.props.dates.initial_date, end_date: context.props.dates.end_date})
-    .then((transactions) => {
-      context.state.transactions.incomes = transactions['data']['data'].income;
-      context.state.transactions.fixed_outcomes = transactions['data']['data'].outcome_fixed;
-      context.state.transactions.variant_outcomes = transactions['data']['data'].outcome;
-      context.setState(context.state.transactions);
-    });
-  }
-
 }
 
 ScrollableTabsButtonAuto.propTypes = {

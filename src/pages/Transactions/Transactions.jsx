@@ -19,58 +19,68 @@ export default class Transactions extends Component{
 
   state = {
     cards : [],
-    dates: {initial_date: moment().startOf('month'), end_date: moment().endOf('month')}
+    initial_date: moment().startOf('month'),
+    end_date: moment().endOf('month')
   };
 
   componentDidMount(){
-    this.loadStatsCards(this);
+    this.loadStatsCards(this.state);
   }
+
+componentWillUpdate(next_props, next_state){
+  if(this.state.initial_date !== next_state.initial_date){
+    this.loadStatsCards(next_state);
+    }
+}
   
   render(){
+    const {initial_date, end_date, cards} = this.state;
+
     return (
       <div className="col-12">
         <div className="row">
           {
-            this.state.cards.map(card => <Card key={card.id} info={card}/>)
+            cards.map(card => <Card key={card.id} info={card}/>)
           }
         </div>
         <div className="row">
           <div className="col-12">
             <div className={'month-picker'}>
             <MonthPickerInput 
-              year={2018}
-              month={8}
+              year={new Date().getFullYear()}
+              month={new Date().getMonth()}
               onChange={(maskedValue, selectedYear, selectedMonth) => {
                 let original_date = `${selectedYear}-${String(selectedMonth + 1).padStart(2, '0')}`;
-                let dates = {
-                  initial_date: moment(original_date).startOf('month'),
-                  end_date: moment(original_date).endOf('month')
-                };
-                this.setState({dates});
+                let initial_date = moment(original_date).startOf('month');
+                let end_date = moment(original_date).endOf('month');
+                this.setState({initial_date, end_date});
               }}
             />
             </div>
           </div>
         </div>
         <div className="row">
-          <Tabs dates={this.state.dates}/>
+          <Tabs initial_date={initial_date} end_date={end_date}/>
         </div>
       </div>
     );
   };
 
-  loadStatsCards(context){
+  loadStatsCards(state){
+    const { initial_date, end_date } = state;
+
     let card_calls = [];
     
-    context.cards_urls.map((url) => {
-      card_calls.push(axios.post(process.env.REACT_APP_API + url, {owner: context.owner, initial_date: context.state.dates.initial_date, end_date: context.state.dates.end_date}));  
+    this.cards_urls.map((url) => {
+      card_calls.push(axios.post(process.env.REACT_APP_API + url, {owner: this.owner, initial_date: initial_date, end_date: end_date}));  
     });
 
     Promise.all(card_calls).then((cards) => {
+      let new_cards = [];
       cards.forEach((card) => {
-        context.state.cards.push(card['data']['data']);
-      })
-      context.setState(context.state.cards);
+        new_cards.push(card['data']['data']);
+      });
+      this.setState({cards: new_cards});
     });
   };
 }

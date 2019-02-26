@@ -76,6 +76,7 @@ export default class TransactionsTable extends Component {
       new_row['owner'] = '5c7048fefcf5cf00148a9016';
       new_row['type'] = this.props.type;
       new_row['fixed'] = this.props.fixed;
+      new_row['status'] = new_row['status'] || true;
 
       axios.post(process.env.REACT_APP_API + 'transactions/add', new_row).then((transaction_id) => {
         new_row['_id'] = transaction_id['data']['data']['_id'];

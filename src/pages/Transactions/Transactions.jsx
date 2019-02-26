@@ -3,6 +3,7 @@ import Card from 'components/Card/Card';
 import Tabs from 'components/Tab/Tab';
 import moment from 'moment';
 import axios from 'axios';
+import MonthPickerInput from 'react-month-picker-input';
 import './Transactions.scss';
 
 export default class Transactions extends Component{
@@ -32,6 +33,24 @@ export default class Transactions extends Component{
           {
             this.state.cards.map(card => <Card key={card.id} info={card}/>)
           }
+        </div>
+        <div className="row">
+          <div className="col-12">
+            <div className={'month-picker'}>
+            <MonthPickerInput 
+              year={2018}
+              month={8}
+              onChange={(maskedValue, selectedYear, selectedMonth) => {
+                let original_date = `${selectedYear}-${String(selectedMonth + 1).padStart(2, '0')}`;
+                let dates = {
+                  initial_date: moment(original_date).startOf('month'),
+                  end_date: moment(original_date).endOf('month')
+                };
+                this.setState({dates});
+              }}
+            />
+            </div>
+          </div>
         </div>
         <div className="row">
           <Tabs dates={this.state.dates}/>

@@ -44,7 +44,7 @@ class ScrollableTabsButtonAuto extends React.Component {
     }
   };
 
-  componentDidMount(){
+  componentDidUpdate(){
     this.fetchTransactions(this);
   }
 
@@ -55,8 +55,6 @@ class ScrollableTabsButtonAuto extends React.Component {
   render() {
     const { classes } = this.props;
     const { value, transactions } = this.state;
-
-    if(transactions.incomes[0] !== undefined){
       return (
         <div className='col-12'>
         <div className={classes.root}>
@@ -73,9 +71,6 @@ class ScrollableTabsButtonAuto extends React.Component {
         </div>
         </div>
       );
-    } else {
-      return null;
-    }
   }
 
   fetchTransactions(context){

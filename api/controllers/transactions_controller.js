@@ -187,7 +187,7 @@ exports.add_TRANSACTION = (request, response, next) => {
 
 //UPDATE A TRANSACTION INTO THE DATABASE
 exports.update_TRANSACTION = (request, response, next) => {
-  Transaction.update({_id: request.body.transaction_id}, {$set: request.body.transaction})
+  Transaction.updateOne({_id: request.body.transaction_id}, {$set: request.body.transaction})
   .exec()
   .then((result) => {
       response.status(200).json({error: false, data: 'Transaction update succesfully', result: result});
@@ -199,7 +199,7 @@ exports.update_TRANSACTION = (request, response, next) => {
 
 //DELETE A TRANSACTION FROM THE BANK
 exports.delete_TRANSACTION = (request, response, next) => {
-  Transaction.findOneAndRemove({_id: request.body.transaction_id})
+  Transaction.findOneAndDelete({_id: request.body.transaction_id})
   .exec()
   .then((result) => {
       response.status(200).json({error: false, data: 'Transaction removed successfully', result: result});

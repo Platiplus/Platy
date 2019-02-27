@@ -140,13 +140,22 @@ exports.fetch_last_TRANSACTION = (request, response, next) => {
   .limit(1)
   .exec()
   .then((collection) => {
+    let card_result = {
+        value: 0,
+        description: 'Sem transações'
+    };
+
+    if(collection[0] !== undefined){
+        card_result.value = collection[0]['value'];
+        card_result.description = collection[0]['description'];
+    }
 
     let card = {
       id: 4,
       header: "Última transação",
       icon: "attach_money",
-      balance: collection[0]['value'],
-      footer: collection[0]['description'],
+      balance: card_result['value'],
+      footer: card_result['description'],
       spacing: 3
     };
 
